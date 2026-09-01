@@ -1,5 +1,6 @@
 import os
 import datetime
+import warnings
 from typing import Optional
 
 import bcrypt
@@ -12,6 +13,14 @@ from .database import get_db
 from . import models
 
 SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-change-me-in-production")
+
+if SECRET_KEY.startswith("dev-") or SECRET_KEY == "change-me-to-a-long-random-string":
+    if os.getenv("ENVIRONMENT") == "production":
+        warnings.warn(
+            "WARNING: Using insecure SECRET_KEY default in production. "
+            "Set SECRET_KEY to a strong random string (32+ characters).",
+            RuntimeWarning
+        )
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 7 days
 

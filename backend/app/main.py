@@ -1,4 +1,5 @@
 import os
+import warnings
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -15,6 +16,14 @@ app = FastAPI(
 )
 
 FRONTEND_ORIGIN = os.getenv("FRONTEND_ORIGIN", "*")
+ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
+
+if FRONTEND_ORIGIN == "*" and ENVIRONMENT == "production":
+    warnings.warn(
+        "WARNING: CORS is set to allow all origins in production. "
+        "Set FRONTEND_ORIGIN to your actual frontend domain.",
+        RuntimeWarning
+    )
 
 app.add_middleware(
     CORSMiddleware,
