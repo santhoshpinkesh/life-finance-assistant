@@ -16,6 +16,9 @@ if DATABASE_URL.startswith("sqlite"):
     connect_args = {"check_same_thread": False}
     engine = create_engine(DATABASE_URL, connect_args=connect_args)
 else:
+    if DATABASE_URL.startswith("postgresql://"):
+        DATABASE_URL = DATABASE_URL.replace("postgresql://", "postgresql+pg8000://")
+
     connect_args = {"sslmode": os.getenv("DB_SSLMODE", "require")}
     engine = create_engine(
         DATABASE_URL,
