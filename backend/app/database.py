@@ -22,10 +22,8 @@ else:
     if "?" in DATABASE_URL:
         DATABASE_URL = DATABASE_URL.split("?")[0]
 
-    connect_args = {"ssl": True}
     engine = create_engine(
         DATABASE_URL,
-        connect_args=connect_args,
         poolclass=QueuePool,
         pool_size=5,
         max_overflow=10,
