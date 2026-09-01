@@ -19,6 +19,9 @@ else:
     if DATABASE_URL.startswith("postgresql://"):
         DATABASE_URL = DATABASE_URL.replace("postgresql://", "postgresql+pg8000://")
 
+    if "?" in DATABASE_URL:
+        DATABASE_URL = DATABASE_URL.split("?")[0]
+
     connect_args = {"ssl": True}
     engine = create_engine(
         DATABASE_URL,
