@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-echo "Installing Python dependencies (binary wheels only)..."
+echo "Installing Python dependencies..."
 pip install --upgrade pip
-pip install --only-binary :all: -r requirements.txt
+pip install --prefer-binary -r requirements.txt
 
 echo "Build complete!"
